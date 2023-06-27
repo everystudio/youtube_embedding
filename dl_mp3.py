@@ -14,16 +14,20 @@ def download_as_mp3(url,output_path):
     }
     with yt_dlp.YoutubeDL(options) as ydl:
         info_dict = ydl.extract_info(url,download=False)
-        filename =f"{output_path}/{info_dict['title'].replace('/','_')}"
+        filename = info_dict['title'].replace('/','_')
+        file_path =f"{output_path}/{filename}"
 
-        print("Download Filename:" + filename)
+        print("Download File Path:" + file_path)
 
-        if not os.path.exists(filename+".mp3"):
+        if not os.path.exists(file_path+".mp3"):
             print("Not Exits!!!")
-            options.update({'outtmpl': filename})
+            options.update({'outtmpl': file_path})
             with yt_dlp.YoutubeDL(options) as ydl_download:
                 ydl.download([url])
+        else:
+            print("File Exists!!!")
 
+        # 返すのはファイル名（ただし拡張子なし）
         return filename
 
 #url = 'https://www.youtube.com/watch?v=rDOrH18Iyn0'  # Replace with your YouTube video URL

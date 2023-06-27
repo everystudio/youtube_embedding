@@ -15,12 +15,14 @@ def add_line(s):
  
     return new_s
 
-def output_whisper_result(path , filename , model):
-    
+def output_whisper_result(file_path , filename , model):
     ## 音声へのパス
-    input =path + '/' +filename
+    input =file_path + '/' +filename + '.mp3'
  
-    output = path + '/' + filename + '.txt'
+    output = file_path + '/' + filename + '.txt'
+
+    print('INPUT:'+input)
+    print('OUTPUT:'+output)
 
     if not os.path.exists(output):
 
