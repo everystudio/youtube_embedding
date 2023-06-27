@@ -46,8 +46,9 @@ def output_whisper_result(path , filename , model):
             file.write(srt.compose(subs))
 
 
-path = 'mp3'
-filename = 'sample.mp3'
+#path = 'mp3'
+#filename = 'sample.mp3'
 # モデルの読み込みにもかなり時間が必要だったので、引数で渡す
-model = whisper.load_model("medium")
-output_whisper_result(path,filename,model)
+#model = whisper.load_model("medium")
+#output_whisper_result(path,filename,model)
+
