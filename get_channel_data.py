@@ -12,13 +12,13 @@ def get_channel_info(api_key, channel_id):
 
     return response
 
-from dotenv import load_dotenv
-import os
-load_dotenv()
+#from dotenv import load_dotenv
+#import os
+#load_dotenv()
 
-api_key = os.getenv('API_KEY')
-channel_id = 'UCee7U0mnWxA-0i6lCx5N73Q'
+#api_key = os.getenv('API_KEY')
+#channel_id = 'UCee7U0mnWxA-0i6lCx5N73Q'
 
-channel_info = get_channel_info(api_key, channel_id)
-print(channel_info['items'][0]['snippet']['title'])
+#channel_info = get_channel_info(api_key, channel_id)
+#print(channel_info['items'][0]['snippet']['title'])
 #print(channel_info)
