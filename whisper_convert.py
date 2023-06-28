@@ -3,6 +3,44 @@ from datetime import timedelta
 from srt import Subtitle
 import srt
 import os
+import time
+import logging
+from dotenv import load_dotenv
+
+load_dotenv()
+
+def setup_logger():
+    formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s', '%Y-%m-%d %H:%M:%S')
+
+    log_directory = os.getenv('LOG_DIRECTORY')
+    if not os.path.exists(log_directory) :
+       os.makedirs(log_directory)
+
+    handler = logging.FileHandler(f'{log_directory}/whisper_log.txt', encoding='utf-8-sig')
+    handler.setFormatter(formatter)
+
+    logger = logging.getLogger()
+    logger.addHandler(handler)
+    logger.setLevel(logging.INFO)
+
+setup_logger()
+
+def time_logging(func):
+    def wrapper(*args,**kwargs):
+        start_time = time.time()
+        result = func(*args,**kwargs)
+        elapsed_time = (time.time() - start_time)
+        minutes,seconds = divmod(elapsed_time,60)
+        elapsed_time = round(elapsed_time, 2)  # Round to 2 decimal places
+
+        if(result):
+            if 1 < len(args):
+                #logging.info(f"{func.__name__} {args[1]} {elapsed_time} seconds.")
+                logging.info(f'{func.__name__:<20} {int(minutes):>2}m {seconds:>05.2f}s {args[1]}')
+            else:
+                logging.info(f"{func.__name__} took {elapsed_time} seconds.")
+        return result
+    return wrapper
 
 def add_line(s):
     new_s = s
@@ -15,6 +53,7 @@ def add_line(s):
  
     return new_s
 
+@time_logging
 def output_whisper_result(file_path , filename , model):
     ## 音声へのパス
     input =file_path + '/' +filename + '.mp3'
@@ -46,6 +85,10 @@ def output_whisper_result(file_path , filename , model):
         with open(output, mode='w' ,encoding='utf-8') as file:
         # 文字列をファイルに書き込みます
             file.write(srt.compose(subs))
+
+        return True
+
+    return False
 
 
 #path = 'mp3'
